@@ -1,0 +1,6 @@
+<input type="file" (change)="handleFileInput($event)" webkitdirectory directory *ngIf="!folderSelected"/>
+<ul *ngIf="folderSelected">
+    <li *ngFor="let file of files">
+        {{file}}
+    </li>
+</ul>
