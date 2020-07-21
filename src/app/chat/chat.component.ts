@@ -16,7 +16,6 @@ export class ChatComponent implements OnInit {
 
     this.route.params.subscribe(params =>{
       this.chatlog = this.chatService.getChatlog(params['id']);
-      console.log(this.chatlog);
     })
   }
 

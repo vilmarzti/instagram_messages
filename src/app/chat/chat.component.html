@@ -1,7 +1,6 @@
-<ul *ngIf="chatlog">
     <li *ngFor="let message of chatlog.messages">
-        <div>
+        <div >
             {{message.text}}
         </div>
     </li>
-</ul>
+<app-message *ngFor="let message of chatlog.messages" [message]="message"></app-message>

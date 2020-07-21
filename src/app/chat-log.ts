@@ -1,4 +1,4 @@
-import { Message } from './message';
+import { Message } from './chat/message/message';
 
 export interface ChatLog {
     fileName: string;
