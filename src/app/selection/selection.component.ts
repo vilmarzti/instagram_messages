@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ChatLogService } from '../chat-log.service';
+import { ChatLog } from '../chat-log';
 
 @Component({
   selector: 'app-selection',
@@ -7,11 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SelectionComponent implements OnInit {
 
-  constructor() { }
+  constructor(private chatLogService: ChatLogService) { }
   public folderSelected = false;
-  public files = [];
+  public files: ChatLog[] = [];
 
   ngOnInit(): void {
+    this.chatLogService.getObservable().subscribe( (chatLog) =>{
+      this.files.push(chatLog);
+    })
   }
   
   public handleFileInput(event: any): void{
@@ -19,23 +24,18 @@ export class SelectionComponent implements OnInit {
       this.folderSelected = true;
 
       for(const file of event.target.files){
-        this.files.push(file.name)
+        this.readFile(file);
       }
-
-
-
-      console.log(event.target.files);
-      const reader: FileReader = new FileReader();
-      reader.onload = (e: ProgressEvent) =>{
-        console.log(e);
-        console.log(reader.result);
-      }
-      reader.readAsText(event.target.files[0]);
     }
   }
 
-  private readFile(){
-
+  private readFile(file: File){
+    const reader: FileReader = new FileReader();
+    reader.onload = (e: ProgressEvent) =>{
+      let elem: ChatLog = {fileName: file.name, messages: []};
+      this.chatLogService.addChatlog(elem);
+    }
+    reader.readAsText(file);
   }
 
 }

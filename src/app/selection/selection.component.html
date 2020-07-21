@@ -1,6 +1,8 @@
 <input type="file" (change)="handleFileInput($event)" webkitdirectory directory *ngIf="!folderSelected"/>
 <ul *ngIf="folderSelected">
     <li *ngFor="let file of files">
-        {{file}}
+        <div [routerLink]="['/chat', file.id]">
+            {{file.fileName}}
+        </div>
     </li>
 </ul>

@@ -1,1 +1,7 @@
-<p>chat works!</p>
+<ul *ngIf="chatlog">
+    <li *ngFor="let message of chatlog.messages">
+        <div>
+            {{message.text}}
+        </div>
+    </li>
+</ul>
