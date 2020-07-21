@@ -9,11 +9,12 @@ import { ChatLog } from '../chat-log';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
+  // initialize empty chatlog
   public chatlog: ChatLog = {fileName:'test', messages: []};
   constructor(private chatService: ChatLogService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-
+    // get specific chatlog from ChatlogService
     this.route.params.subscribe(params =>{
       this.chatlog = this.chatService.getChatlog(params['id']);
     })

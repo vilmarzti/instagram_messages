@@ -11,9 +11,13 @@ export class ChatLogService {
 
   constructor() { }
 
+  // adds chatlog to the known list
   public addChatlog(c: ChatLog): void{
+    // give it an id
     c.id = this._chatlogs.length + 1;
 
+    // create test messages
+    // TODO: delete
     c.messages = [
       { sender: 0,
         text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consete"
@@ -34,10 +38,15 @@ export class ChatLogService {
   }
 
   public getChatlog(id: number): ChatLog{
+    // find chatlog with specific id
     let cl = this._chatlogs.find(chatlog => chatlog.id == id);
+
+    // if found return it
     if (cl){
       return cl;
     }
+    // if not found return test-chatlog
+    // TODO: delete later
     else{
       return {
         id: id,

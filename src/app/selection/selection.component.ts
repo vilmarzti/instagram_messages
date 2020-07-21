@@ -14,12 +14,15 @@ export class SelectionComponent implements OnInit {
   public files: ChatLog[] = [];
 
   ngOnInit(): void {
+    // get a local copy of the chatlogs
     this.chatLogService.getObservable().subscribe( (chatLog) =>{
       this.files.push(chatLog);
     })
   }
   
   public handleFileInput(event: any): void{
+    // if a folder is selected -> read all the files
+    // and give them to chat-log-service
     if(event.target && event.target.files){
       this.folderSelected = true;
 
@@ -31,10 +34,12 @@ export class SelectionComponent implements OnInit {
 
   private readFile(file: File){
     const reader: FileReader = new FileReader();
+    // give them to the chatlog
     reader.onload = (e: ProgressEvent) =>{
       let elem: ChatLog = {fileName: file.name, messages: []};
       this.chatLogService.addChatlog(elem);
     }
+    // read file
     reader.readAsText(file);
   }
 
