@@ -9,15 +9,20 @@ import { ChatLog } from '../chat/chat-log';
   styleUrls: ['./selection.component.scss']
 })
 export class SelectionComponent implements OnInit {
-
-  constructor(private conversationService : ConverstationService) { }
   public chatlogs: ChatLog[] = [];
+  public chatOwner: string;
+
+  constructor(private conversationService : ConverstationService) { 
+  }
 
   ngOnInit(): void {
     // get a local copy of the chatlogs
-    this.conversationService.getObservable().subscribe( item =>
+    this.conversationService.getChatLogObservable().subscribe( item =>
       this.chatlogs.push(item)
     )
+    this.conversationService.getOwnerObservable().subscribe( item =>{
+      this.chatOwner = item;
+    })
   }
   
   public handleFileInput(event: any): void{

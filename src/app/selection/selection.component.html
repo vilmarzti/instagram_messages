@@ -1,5 +1,6 @@
 <input type="file" (change)="handleFileInput($event)"  accept="application/JSON" *ngIf="chatlogs.length == 0"/>
 <ul *ngIf="chatlogs.length > 0">
+    <div class="owner"> {{chatOwner}} </div>
     <li *ngFor="let chatlog of chatlogs">
         <div [routerLink]="['/chat', chatlog.id]">
             <div class="participants">
