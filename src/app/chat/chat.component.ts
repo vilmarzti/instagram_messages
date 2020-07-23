@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ChatLogService } from '../chat-log.service';
+import { ChatLogService } from './chat-log.service';
+import { JsonFile } from '../json-file';
 import { Router, ActivatedRoute } from '@angular/router'
-import { ChatLog } from '../chat-log';
+import { ChatLog } from './chat-log';
 
 @Component({
   selector: 'app-chat',
@@ -10,13 +11,13 @@ import { ChatLog } from '../chat-log';
 })
 export class ChatComponent implements OnInit {
   // initialize empty chatlog
-  public chatlog: ChatLog = {fileName:'test', messages: []};
-  constructor(private chatService: ChatLogService, private route: ActivatedRoute) { }
+  public chatLog: ChatLog = {participants: [], conversation: []};
+  constructor(private chatLogService: ChatLogService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     // get specific chatlog from ChatlogService
     this.route.params.subscribe(params =>{
-      this.chatlog = this.chatService.getChatlog(params['id']);
+      this.chatLog = this.chatLogService.getChatlog(params['id']);
     })
   }
 

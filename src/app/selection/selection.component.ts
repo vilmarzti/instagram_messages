@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ChatLogService } from '../chat-log.service';
-import { ChatLog } from '../chat-log';
+import { JsonFileService } from '../json-file.service';
+import { JsonFile } from '../json-file';
 
 @Component({
   selector: 'app-selection',
@@ -9,14 +9,14 @@ import { ChatLog } from '../chat-log';
 })
 export class SelectionComponent implements OnInit {
 
-  constructor(private chatLogService: ChatLogService) { }
+  constructor(private fileService: JsonFileService) { }
   public folderSelected = false;
-  public files: ChatLog[] = [];
+  public files: JsonFile[] = [];
 
   ngOnInit(): void {
     // get a local copy of the chatlogs
-    this.chatLogService.getObservable().subscribe( (chatLog) =>{
-      this.files.push(chatLog);
+    this.fileService.getObservable().subscribe( file => {
+      this.files.push(file)
     })
   }
   
@@ -27,7 +27,9 @@ export class SelectionComponent implements OnInit {
       this.folderSelected = true;
 
       for(const file of event.target.files){
-        this.readFile(file);
+        if(file.name.split('.').pop() === 'json'){
+          this.readFile(file);
+        }
       }
     }
   }
@@ -36,11 +38,9 @@ export class SelectionComponent implements OnInit {
     const reader: FileReader = new FileReader();
     // give them to the chatlog
     reader.onload = (e: ProgressEvent) =>{
-      let elem: ChatLog = {fileName: file.name, messages: []};
-      this.chatLogService.addChatlog(elem);
+      this.fileService.addFile(file.name, reader.result.toString());
     }
     // read file
     reader.readAsText(file);
   }
-
 }
