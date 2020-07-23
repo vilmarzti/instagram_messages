@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { JsonFileService } from '../json-file.service';
+import { ConverstationService } from './converstation.service';
 import { JsonFile } from '../json-file';
+import { ChatLog } from '../chat/chat-log';
 
 @Component({
   selector: 'app-selection',
@@ -8,39 +9,29 @@ import { JsonFile } from '../json-file';
   styleUrls: ['./selection.component.scss']
 })
 export class SelectionComponent implements OnInit {
+  public chatlogs: ChatLog[] = [];
+  public chatOwner: string;
 
-  constructor(private fileService: JsonFileService) { }
-  public folderSelected = false;
-  public files: JsonFile[] = [];
+  constructor(private conversationService : ConverstationService) { 
+  }
 
   ngOnInit(): void {
     // get a local copy of the chatlogs
-    this.fileService.getObservable().subscribe( file => {
-      this.files.push(file)
+    this.conversationService.getChatLogObservable().subscribe( item =>
+      this.chatlogs.push(item)
+    )
+    this.conversationService.getOwnerObservable().subscribe( item =>{
+      this.chatOwner = item;
     })
   }
   
   public handleFileInput(event: any): void{
-    // if a folder is selected -> read all the files
-    // and give them to chat-log-service
     if(event.target && event.target.files){
-      this.folderSelected = true;
-
-      for(const file of event.target.files){
-        if(file.name.split('.').pop() === 'json'){
-          this.readFile(file);
-        }
+      const reader: FileReader = new FileReader();
+      reader.onload = (e: ProgressEvent) => {
+        this.conversationService.handleJSON(reader.result.toString());
       }
+      reader.readAsText(event.target.files[0]);
     }
-  }
-
-  private readFile(file: File){
-    const reader: FileReader = new FileReader();
-    // give them to the chatlog
-    reader.onload = (e: ProgressEvent) =>{
-      this.fileService.addFile(file.name, reader.result.toString());
-    }
-    // read file
-    reader.readAsText(file);
   }
 }

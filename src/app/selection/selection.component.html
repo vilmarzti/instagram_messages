@@ -4,12 +4,16 @@
         <div class="article"> <a> Mit diesem Programm kannst du deine Instagram-Chats (message.jason Datei) lesbar
                 machen. So sparst du dir ewiges Aufwärts-Scrollen auf Instagram und kannst deine Nachrichten als
                 Erinnerungen archivieren. </a> </div>
-
-        <input type="file" (change)="handleFileInput($event)" webkitdirectory directory *ngIf="!folderSelected" />
-        <ul *ngIf="folderSelected">
-            <li *ngFor="let file of files">
-                <div [routerLink]="['/chat', file.id]">
-                    {{file.fileName}}
+        <input type="file" (change)="handleFileInput($event)" accept="application/JSON" *ngIf="chatlogs.length == 0" />
+        <ul *ngIf="chatlogs.length > 0">
+            <div class="owner"> {{chatOwner}} </div>
+            <li *ngFor="let chatlog of chatlogs">
+                <div [routerLink]="['/chat', chatlog.id]">
+                    <div class="participants">
+                        <div class="p" *ngFor="let p of chatlog.participants">
+                            {{p}}
+                        </div>
+                    </div>
                 </div>
             </li>
         </ul>
