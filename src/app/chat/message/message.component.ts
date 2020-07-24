@@ -8,6 +8,7 @@ import { Message } from './message';
 })
 export class MessageComponent implements OnInit {
   @Input() message: Message;
+  @Input() owner: string;
   constructor() { }
 
   ngOnInit(): void {

@@ -1,3 +1,3 @@
-<div [class]="message.sender ? 'me' : 'other'">
-    {{message.text}}
+<div [class]="message.sender == owner ? 'me' : 'other'">
+    {{message.sender}}: {{message.text}}
 </div>
