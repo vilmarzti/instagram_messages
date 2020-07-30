@@ -1,3 +1,9 @@
 <div [class]="message.sender == owner ? 'me' : 'other'">
-    {{message.sender}}: {{message.text}}
+    <div class="text" *ngIf="message.text">
+        {{message.sender}}: {{message.text}}
+    </div>
+    <div class="media" *ngIf="message.media_share_url">
+        {{message.sender}}: {{message.media_share_url}}
+        <img [src]="message.media_share_url"/>
+    </div>
 </div>

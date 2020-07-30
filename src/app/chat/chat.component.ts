@@ -35,7 +35,7 @@ export class ChatComponent implements OnInit, AfterViewInit{
   ngOnInit(): void {
     // get specific chatlog from ChatlogService
     this.route.params.subscribe(params =>{
-      this.chatID = params['id'];
+      this.chatID = +params['id'];
       this.chatLog = this.conversationService.getChatLog(params['id']);
 
       // route back to start if chatlog is undefined
