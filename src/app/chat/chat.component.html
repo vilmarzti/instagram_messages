@@ -1,1 +1,9 @@
-<app-message *ngFor="let message of chatLog.conversation" [message]="message" [owner]="chatOwner"></app-message>
+<div class="content" #content>
+    <app-message *ngFor="let message of chatLog.conversation" [message]="message" [owner]="chatOwner"></app-message>
+</div>
+
+<span class="material-icons scroll-element toBottom" (click)="scrollToBottom()">keyboard_arrow_down</span>
+<span class="material-icons scroll-element toTop" (click)="scrollToTop()">keyboard_arrow_up</span>
+
+<span class="material-icons change change-left" [routerLink]="['/chat', (((chatID - 1) % numberOfChats) + numberOfChats) % numberOfChats]">keyboard_arrow_left</span>
+<span class="material-icons change change-right" [routerLink]="['/chat', (((chatID + 1) % numberOfChats) + numberOfChats) % numberOfChats]">keyboard_arrow_right</span>

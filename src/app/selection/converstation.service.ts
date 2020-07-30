@@ -23,6 +23,10 @@ export class ConverstationService {
     return this._chatlogs.find( elem => elem.id == id);
   }
 
+  public getChatLogLength(): number{
+    return this._chatlogs.length;
+  }
+
   public getOwner(): string{
     return this._owner;
   }
@@ -30,7 +34,7 @@ export class ConverstationService {
   public handleJSON(text: string){
     let cls: ChatLog[] = []
     cls = JSON.parse(text);
-    let index = 1;
+    let index = 0;
     for(let cl of cls){
       cl.id = index
       this._chatlogs.push(cl);
